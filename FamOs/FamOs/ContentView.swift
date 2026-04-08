@@ -1,21 +1,55 @@
-//
-//  ContentView.swift
-//  FamOs
-//
-//  Created by Pablo Flores on 08/04/26.
-//
-
 import SwiftUI
 
+enum AppScreen {
+    case createAccount
+    case familySetup
+    case main
+}
+
 struct ContentView: View {
+    @State private var currentScreen: AppScreen = .createAccount
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch currentScreen {
+            case .createAccount:
+                CreateAccountView(
+                    onContinue: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .familySetup
+                        }
+                    },
+                    onLogin: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .main
+                        }
+                    }
+                )
+
+            case .familySetup:
+                FamilySetupView(
+                    onStartFamily: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .main
+                        }
+                    },
+                    onJoinFamily: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .main
+                        }
+                    },
+                    onGoPersonal: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .main
+                        }
+                    }
+                )
+
+            case .main:
+                MainTabView()
+            }
         }
-        .padding()
+        .transition(.opacity)
     }
 }
 
