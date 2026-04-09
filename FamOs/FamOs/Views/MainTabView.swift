@@ -2,17 +2,19 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selectedTab: TabItem = .home
+    @State private var homePath = NavigationPath()
+    @State private var modulesPath = NavigationPath()
 
     var body: some View {
         ZStack(alignment: .bottom) {
             Group {
                 switch selectedTab {
                 case .home:
-                    NavigationStack {
+                    NavigationStack(path: $homePath) {
                         HomeDashboardView(selectedTab: $selectedTab)
                     }
                 case .modules:
-                    NavigationStack {
+                    NavigationStack(path: $modulesPath) {
                         ModulesView(selectedTab: $selectedTab)
                     }
                 case .alerts:
@@ -22,7 +24,10 @@ struct MainTabView: View {
                 }
             }
 
-            FamOsTabBar(selectedTab: $selectedTab)
+            FamOsTabBar(selectedTab: $selectedTab) { tab in
+                homePath = NavigationPath()
+                modulesPath = NavigationPath()
+            }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

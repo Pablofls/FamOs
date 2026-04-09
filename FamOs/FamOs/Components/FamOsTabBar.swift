@@ -52,28 +52,25 @@ struct FamOsTabBar: View {
         )
     }
 
+    var onTabTapped: ((TabItem) -> Void)? = nil
+
     @ViewBuilder
     private func tabButton(for tab: TabItem) -> some View {
         let isSelected = selectedTab == tab
         Button {
             withAnimation(.easeInOut(duration: 0.15)) {
+                onTabTapped?(tab)
                 selectedTab = tab
             }
         } label: {
-            VStack(spacing: 4) {
-                Image(systemName: isSelected ? tab.iconFilled : tab.icon)
-                    .font(.system(size: 22))
-                Text(tab.label)
-                    .font(.system(size: 10, weight: isSelected ? .bold : .medium))
-                    .tracking(1)
-            }
-            .foregroundStyle(isSelected ? FamOsTheme.primaryIndigo : FamOsTheme.neutralGrey)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 4)
-            .background(
-                isSelected ? FamOsTheme.primaryLight : Color.clear
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            Image(systemName: isSelected ? tab.iconFilled : tab.icon)
+                .font(.system(size: 24))
+                .foregroundStyle(isSelected ? FamOsTheme.primaryIndigo : FamOsTheme.neutralGrey)
+                .frame(width: 48, height: 48)
+                .background(
+                    isSelected ? FamOsTheme.primaryLight : Color.clear
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
     }
