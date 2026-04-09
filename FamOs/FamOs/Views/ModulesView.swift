@@ -23,27 +23,33 @@ struct ModulesView: View {
                 // Module Grid
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                     // Calendar Module
-                    VStack(alignment: .leading, spacing: 16) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium)
-                                .fill(FamOsTheme.primaryLight)
-                                .frame(width: 56, height: 56)
-                            Image(systemName: "calendar")
-                                .font(.system(size: 24))
-                                .foregroundStyle(FamOsTheme.primaryIndigo)
-                        }
+                    NavigationLink {
+                        FamilyCalendarView(selectedTab: $selectedTab)
+                            .toolbar(.hidden, for: .navigationBar)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 16) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium)
+                                    .fill(FamOsTheme.primaryLight)
+                                    .frame(width: 56, height: 56)
+                                Image(systemName: "calendar")
+                                    .font(.system(size: 24))
+                                    .foregroundStyle(FamOsTheme.primaryIndigo)
+                            }
 
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Calendar")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(FamOsTheme.brandDark)
-                            SectionLabel(text: "Shared Schedules")
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Calendar")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundStyle(FamOsTheme.brandDark)
+                                SectionLabel(text: "Shared Schedules")
+                            }
                         }
+                        .padding(24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(FamOsTheme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium))
                     }
-                    .padding(24)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(FamOsTheme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium))
+                    .buttonStyle(.plain)
 
                     // Add Module Placeholder
                     VStack(spacing: 8) {
