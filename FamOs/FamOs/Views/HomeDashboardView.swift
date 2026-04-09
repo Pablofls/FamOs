@@ -43,39 +43,45 @@ struct HomeDashboardView: View {
                     .padding(.bottom, 16)
 
                     // Calendar Summary Card
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            HStack(spacing: 12) {
-                                ZStack {
-                                    Circle()
-                                        .fill(FamOsTheme.primaryLight)
-                                        .frame(width: 40, height: 40)
-                                    Image(systemName: "calendar")
-                                        .foregroundStyle(FamOsTheme.primaryIndigo)
+                    NavigationLink {
+                        FamilyCalendarView(selectedTab: $selectedTab)
+                            .toolbar(.hidden, for: .navigationBar)
+                    } label: {
+                        VStack(alignment: .leading, spacing: 16) {
+                            HStack {
+                                HStack(spacing: 12) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(FamOsTheme.primaryLight)
+                                            .frame(width: 40, height: 40)
+                                        Image(systemName: "calendar")
+                                            .foregroundStyle(FamOsTheme.primaryIndigo)
+                                    }
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("Calendar")
+                                            .font(.system(size: 16, weight: .bold))
+                                            .foregroundStyle(FamOsTheme.brandDark)
+                                        Text("3 events today")
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(FamOsTheme.neutralGrey)
+                                    }
                                 }
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Calendar")
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundStyle(FamOsTheme.brandDark)
-                                    Text("3 events today")
-                                        .font(.system(size: 12))
-                                        .foregroundStyle(FamOsTheme.neutralGrey)
-                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(FamOsTheme.neutralGrey.opacity(0.5))
                             }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(FamOsTheme.neutralGrey.opacity(0.5))
-                        }
 
-                        // Event items
-                        VStack(spacing: 12) {
-                            dashboardEventRow(time: "09:00", title: "School drop-off (Mateo)", color: FamOsTheme.secondary)
-                            dashboardEventRow(time: "14:30", title: "Grocery shopping", color: FamOsTheme.semanticPositive)
+                            // Event items
+                            VStack(spacing: 12) {
+                                dashboardEventRow(time: "09:00", title: "School drop-off (Mateo)", color: FamOsTheme.secondary)
+                                dashboardEventRow(time: "14:30", title: "Grocery shopping", color: FamOsTheme.semanticPositive)
+                            }
                         }
+                        .padding(24)
+                        .background(FamOsTheme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium))
                     }
-                    .padding(24)
-                    .background(FamOsTheme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium))
+                    .buttonStyle(.plain)
                     .padding(.bottom, 16)
 
                     // Hero / Tip Card

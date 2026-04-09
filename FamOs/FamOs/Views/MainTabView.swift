@@ -8,7 +8,9 @@ struct MainTabView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeDashboardView(selectedTab: $selectedTab)
+                    NavigationStack {
+                        HomeDashboardView(selectedTab: $selectedTab)
+                    }
                 case .modules:
                     NavigationStack {
                         ModulesView(selectedTab: $selectedTab)
