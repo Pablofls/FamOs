@@ -35,9 +35,14 @@ struct HomeDashboardView: View {
                     HStack {
                         SectionLabel(text: "Today at a glance")
                         Spacer()
-                        Text("View All")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(FamOsTheme.primaryIndigo)
+                        NavigationLink {
+                            CalendarViewAllView(selectedTab: $selectedTab)
+                                .toolbar(.hidden, for: .navigationBar)
+                        } label: {
+                            Text("View All")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(FamOsTheme.primaryIndigo)
+                        }
                     }
                     .padding(.horizontal, 4)
                     .padding(.bottom, 16)
