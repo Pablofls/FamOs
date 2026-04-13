@@ -24,7 +24,7 @@ struct FamilySetupView: View {
 
                 // Cards
                 VStack(spacing: 24) {
-                    // Start a New Family
+                    // Start a New Family (disabled)
                     setupCard(
                         icon: "house.fill",
                         title: "Start a New Family",
@@ -33,10 +33,11 @@ struct FamilySetupView: View {
                         buttonTitle: "Start Plan",
                         buttonIcon: "arrow.right",
                         showAccentDot: true,
+                        isDisabled: true,
                         action: onStartFamily
                     )
 
-                    // Join an Existing Family
+                    // Join an Existing Family (disabled)
                     setupCard(
                         icon: "person.2.fill",
                         title: "Join an Existing Family",
@@ -44,6 +45,7 @@ struct FamilySetupView: View {
                         buttonStyle: .secondary,
                         buttonTitle: "Join Family",
                         buttonIcon: "qrcode",
+                        isDisabled: true,
                         action: onJoinFamily
                     )
 
@@ -85,6 +87,7 @@ struct FamilySetupView: View {
         buttonTitle: String,
         buttonIcon: String,
         showAccentDot: Bool = false,
+        isDisabled: Bool = false,
         action: @escaping () -> Void
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -100,10 +103,22 @@ struct FamilySetupView: View {
             .padding(.bottom, 24)
 
             // Title & Description
-            Text(title)
-                .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(FamOsTheme.brandDark)
-                .padding(.bottom, 8)
+            HStack(spacing: 8) {
+                Text(title)
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(FamOsTheme.brandDark)
+                if isDisabled {
+                    Text("COMING SOON")
+                        .font(.system(size: 10, weight: .bold))
+                        .tracking(1)
+                        .foregroundStyle(FamOsTheme.neutralGrey)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(FamOsTheme.elevatedSection)
+                        .clipShape(Capsule())
+                }
+            }
+            .padding(.bottom, 8)
 
             Text(description)
                 .font(.system(size: 14, weight: .medium))
@@ -126,13 +141,17 @@ struct FamilySetupView: View {
             switch buttonStyle {
             case .primary:
                 PrimaryButton(buttonTitle, icon: buttonIcon, action: action)
+                    .opacity(isDisabled ? 0.4 : 1.0)
             case .secondary:
                 SecondaryButton(buttonTitle, icon: buttonIcon, action: action)
+                    .opacity(isDisabled ? 0.4 : 1.0)
             }
         }
         .padding(32)
         .background(FamOsTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: FamOsTheme.radiusMedium))
+        .opacity(isDisabled ? 0.7 : 1.0)
+        .allowsHitTesting(!isDisabled)
         .overlay(alignment: .topTrailing) {
             if showAccentDot {
                 Circle()

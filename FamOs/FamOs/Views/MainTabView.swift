@@ -2,21 +2,23 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selectedTab: TabItem = .home
-    @State private var homePath = NavigationPath()
-    @State private var modulesPath = NavigationPath()
+    @State private var homeId = UUID()
+    @State private var modulesId = UUID()
 
     var body: some View {
         ZStack(alignment: .bottom) {
             Group {
                 switch selectedTab {
                 case .home:
-                    NavigationStack(path: $homePath) {
+                    NavigationStack {
                         HomeDashboardView(selectedTab: $selectedTab)
                     }
+                    .id(homeId)
                 case .modules:
-                    NavigationStack(path: $modulesPath) {
+                    NavigationStack {
                         ModulesView(selectedTab: $selectedTab)
                     }
+                    .id(modulesId)
                 case .alerts:
                     alertsPlaceholder
                 case .profile:
@@ -25,8 +27,11 @@ struct MainTabView: View {
             }
 
             FamOsTabBar(selectedTab: $selectedTab) { tab in
-                homePath = NavigationPath()
-                modulesPath = NavigationPath()
+                switch tab {
+                case .home: homeId = UUID()
+                case .modules: modulesId = UUID()
+                default: break
+                }
             }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)

@@ -1,17 +1,32 @@
 import SwiftUI
 
 enum AppScreen {
+    case login
     case createAccount
     case familySetup
     case main
 }
 
 struct ContentView: View {
-    @State private var currentScreen: AppScreen = .createAccount
+    @State private var currentScreen: AppScreen = .login
 
     var body: some View {
         Group {
             switch currentScreen {
+            case .login:
+                LoginView(
+                    onLogin: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .main
+                        }
+                    },
+                    onCreateAccount: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            currentScreen = .createAccount
+                        }
+                    }
+                )
+
             case .createAccount:
                 CreateAccountView(
                     onContinue: {
@@ -21,23 +36,13 @@ struct ContentView: View {
                     },
                     onLogin: {
                         withAnimation(.easeInOut(duration: 0.3)) {
-                            currentScreen = .main
+                            currentScreen = .login
                         }
                     }
                 )
 
             case .familySetup:
                 FamilySetupView(
-                    onStartFamily: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            currentScreen = .main
-                        }
-                    },
-                    onJoinFamily: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            currentScreen = .main
-                        }
-                    },
                     onGoPersonal: {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             currentScreen = .main
